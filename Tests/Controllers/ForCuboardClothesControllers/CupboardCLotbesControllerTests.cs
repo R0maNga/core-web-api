@@ -32,25 +32,21 @@ public class CupboardClothesControllerTests
 
 
     [Test]
-    public async Task CupboardClothesController_Delete_EqualToStatusCode200()
+    public async Task Delete_EqualToStatusCode200_True()
     {
         //Arrange
         var inputCupboardClothes = new DeleteCupboardClothesRequest();
-        var id = inputCupboardClothes.Id = Guid.NewGuid();
-
+        var expectedCode = new OkObjectResult(200);
         _clothesServiceMock.Setup(t => t.DeleteAsync(It.IsAny<DeleteCupboardClothes>(), It.IsAny<CancellationToken>()));
         //Act
         var cupboardClothes = await _clothesController.Delete(inputCupboardClothes, new CancellationToken());
-        var expectedCode = new OkObjectResult(200);
         var cupboardClothesCode = new OkObjectResult(cupboardClothes);
-
         //Assert
-
         Assert.That(cupboardClothesCode.StatusCode, Is.EqualTo(expectedCode.StatusCode));
     }
 
     [Test]
-    public async Task CupboardClothesController_Procedure_NotEqual()
+    public async Task ExecuteProcedure_NotNull_True()
     {
         //Act
         var data = _clothesServiceMock.Setup(t => t.ExecuteProcedure());
@@ -61,11 +57,10 @@ public class CupboardClothesControllerTests
     }
 
     [Test]
-    public async Task CupboardClothesController_Create_NotNull()
+    public async Task Create_NotNull_True()
     {
         //Arrange
         var cupboardClothes = new CreateCupboardClothesRequest();
-       
 
 
         _clothesServiceMock.Setup(t => t.CreateAsync(It.IsAny<CreateCupboardClothes>(), It.IsAny<CancellationToken>()));

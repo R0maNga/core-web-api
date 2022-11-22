@@ -1,29 +1,30 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace DAL.Repositories;
+﻿namespace DAL.Repositories;
 
 public abstract class AbtractRepository<T> where T : class
 {
-    private readonly DbSet<T> _dbSet;
+    private readonly CupboardContext _context;
 
-    public AbtractRepository(DbSet<T> dbSet)
+    protected AbtractRepository(CupboardContext context)
     {
-        _dbSet = dbSet;
+        _context = context;
     }
 
-    public virtual void Create(T item)
+    public virtual Task<int> Create(T item, CancellationToken token)
     {
-        _dbSet.Add(item);
+        _context.Add(item);
+        return _context.SaveChangesAsync(token);
     }
 
 
-    public virtual void Update(T item)
+    public virtual Task<int> Update(T item, CancellationToken token)
     {
-        _dbSet.Update(item);
+        _context.Update(item);
+        return _context.SaveChangesAsync(token);
     }
 
-    public virtual void Delete(T item)
+    public virtual Task<int> Delete(T item, CancellationToken token)
     {
-        _dbSet.Remove(item);
+        _context.Remove(item);
+        return _context.SaveChangesAsync(token);
     }
 }
