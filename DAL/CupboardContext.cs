@@ -1,9 +1,10 @@
 ﻿using DAL.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL;
 
-public class CupboardContext : DbContext
+public class CupboardContext : IdentityDbContext<AppUser>
 {
     public CupboardContext(DbContextOptions<CupboardContext> options) : base(options)
     {

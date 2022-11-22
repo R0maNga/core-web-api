@@ -46,7 +46,8 @@ public class CupboardClothesController : ControllerBase
     {
         try
         {
-            var cupboardClothes = _mapper.Map<IEnumerable<GetCupboardClothesOutput>>(await _icupboardClothes.GetAsync(token));
+            var cupboardClothes =
+                _mapper.Map<IEnumerable<GetCupboardClothesOutput>>(await _icupboardClothes.GetAsync(token));
 
 
             return Ok(cupboardClothes);

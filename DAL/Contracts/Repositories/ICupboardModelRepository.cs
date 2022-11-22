@@ -4,7 +4,7 @@ namespace DAL.Contracts.Repositories;
 
 public interface ICupboardModelRepository
 {
-    void Create(CupboardModel model);
-    void Update(CupboardModel model);
-    void Delete(CupboardModel model);
+    Task<int> Create(CupboardModel model, CancellationToken token);
+    Task<int> Update(CupboardModel model, CancellationToken token);
+    Task<int> Delete(CupboardModel model, CancellationToken token);
 }

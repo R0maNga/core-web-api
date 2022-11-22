@@ -4,7 +4,7 @@ namespace DAL.Contracts.Repositories;
 
 public interface ICupboardClothesRepository
 {
-    void Create(CupboardClothes cupboardClothes);
-    void Update(CupboardClothes cupboardClothes);
-    void Delete(CupboardClothes cupboardClothes);
+    Task<int> Create(CupboardClothes cupboardClothes, CancellationToken token);
+    Task<int> Update(CupboardClothes cupboardClothes, CancellationToken token);
+    Task<int> Delete(CupboardClothes cupboardClothes, CancellationToken token);
 }

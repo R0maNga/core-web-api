@@ -4,7 +4,7 @@ namespace DAL.Contracts.Repositories;
 
 public interface IClothesRepository
 {
-    void Create(Clothes clothes);
-    void Update(Clothes clothes);
-    void Delete(Clothes clothes);
+    Task<int> Create(Clothes clothes, CancellationToken token);
+    Task<int> Update(Clothes clothes, CancellationToken token);
+    Task<int> Delete(Clothes clothes, CancellationToken token);
 }

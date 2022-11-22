@@ -3,7 +3,6 @@ using BLL.Models.Input.CupboardClothesInput;
 using BLL.Models.Output.CupboardClothesOutput;
 using BLL.Models.Output.ProcedureOutput;
 using BLL.Services.Interfaces;
-using DAL.Contracts;
 using DAL.Contracts.Finders;
 using DAL.Contracts.Procedures;
 using DAL.Contracts.Repositories;
@@ -19,13 +18,12 @@ public class CupboardClothesService : ICupboardClothesService
     private readonly ICupboardClothesFinder _cupboardClothesFinder;
     private readonly IMapper _mapper;
     private readonly IProcedureProcessor _procedureProcessor;
-    private readonly IUnitOfWork _unitOfWork;
 
-    public CupboardClothesService(IUnitOfWork unitOfWork, ICupboardClothesRepository clothesRepository,
+
+    public CupboardClothesService(ICupboardClothesRepository clothesRepository,
         ICupboardClothesFinder cupboardClothesFinder, IProcedureProcessor procedureProcessor,
         IConfiguration configuration, IMapper mapper)
     {
-        _unitOfWork = unitOfWork;
         _clothesRepository = clothesRepository;
         _cupboardClothesFinder = cupboardClothesFinder;
         _procedureProcessor = procedureProcessor;
@@ -36,22 +34,19 @@ public class CupboardClothesService : ICupboardClothesService
     public async Task CreateAsync(CreateCupboardClothes entity, CancellationToken token)
     {
         var mappedData = _mapper.Map<CupboardClothes>(entity);
-        _clothesRepository.Create(mappedData);
-        await _unitOfWork.SaveChangesAsync(token);
+        await _clothesRepository.Create(mappedData, token);
     }
 
     public async Task DeleteAsync(DeleteCupboardClothes entity, CancellationToken token)
     {
         var mappedData = _mapper.Map<CupboardClothes>(entity);
-        _clothesRepository.Delete(mappedData);
-        await _unitOfWork.SaveChangesAsync(token);
+        await _clothesRepository.Delete(mappedData, token);
     }
 
     public async Task UpdateAsync(UpdateCupboardClothes entity, CancellationToken token)
     {
         var mappedData = _mapper.Map<CupboardClothes>(entity);
-        _clothesRepository.Update(mappedData);
-        await _unitOfWork.SaveChangesAsync(token);
+        await _clothesRepository.Update(mappedData, token);
     }
 
     public async Task<GetCupboardClothesOutput?> GetByIdAsync(Guid id, CancellationToken token)

@@ -2,7 +2,6 @@
 using BLL.Models.Input.CupboardModelnput;
 using BLL.Models.Output.CupboardModelOutput;
 using BLL.Services.Interfaces;
-using DAL.Contracts;
 using DAL.Contracts.Finders;
 using DAL.Contracts.Repositories;
 using DAL.Entities;
@@ -14,14 +13,12 @@ public class CupboardModelService : ICupboardModelService
     private readonly ICupboardModelFinder _cupboardModelFinder;
     private readonly ICupboardModelRepository _cupboardRepository;
     private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
 
 
-    public CupboardModelService(ICupboardModelRepository cupboardRepository, IUnitOfWork unitOfWork,
+    public CupboardModelService(ICupboardModelRepository cupboardRepository,
         ICupboardModelFinder cupboardModelFinder, IMapper mapper)
     {
         _cupboardRepository = cupboardRepository;
-        _unitOfWork = unitOfWork;
         _cupboardModelFinder = cupboardModelFinder;
         _mapper = mapper;
     }
@@ -29,22 +26,19 @@ public class CupboardModelService : ICupboardModelService
     public async Task CreateAsync(CreateCupboardModel model, CancellationToken token)
     {
         var mappedData = _mapper.Map<CupboardModel>(model);
-        _cupboardRepository.Create(mappedData);
-        await _unitOfWork.SaveChangesAsync(token);
+        await _cupboardRepository.Create(mappedData, token);
     }
 
     public async Task DeleteAsync(DeleteCupboardModel model, CancellationToken token)
     {
         var mappedData = _mapper.Map<CupboardModel>(model);
-        _cupboardRepository.Delete(mappedData);
-        await _unitOfWork.SaveChangesAsync(token);
+        await _cupboardRepository.Delete(mappedData, token);
     }
 
     public async Task UpdateAsync(UpdateCupboardModel model, CancellationToken token)
     {
         var mappedData = _mapper.Map<CupboardModel>(model);
-        _cupboardRepository.Update(mappedData);
-        await _unitOfWork.SaveChangesAsync(token);
+        await _cupboardRepository.Update(mappedData, token);
     }
 
     public async Task<List<GetCupboardModelOutput>> GetAsync(CancellationToken token, bool includeCupboard = true)

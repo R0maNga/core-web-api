@@ -32,7 +32,7 @@ public class ClothesControllerTests
 
 
     [Test]
-    public async Task ClothesController_GetById_NotNull()
+    public async Task GetById_NotNull_True()
     {
         //Arrange
         var id = new Guid("843b6695-b8ed-4e3f-71cc-08daa6f924dc");
@@ -49,7 +49,7 @@ public class ClothesControllerTests
     }
 
     [Test]
-    public async Task ClothesController_Get_NotNull()
+    public async Task Get_NotNull_True()
     {
         //Arrange
         _clothesServiceMock.Setup(t => t.GetAsync(It.IsAny<CancellationToken>()));
@@ -60,16 +60,15 @@ public class ClothesControllerTests
     }
 
     [Test]
-    public async Task ClothesController_Delete_EqualToStatusCode200()
+    public async Task Delete_EqualToStatusCode200_True()
     {
         //Arrange
         var inputClothes = new DeleteClothes();
         var id = inputClothes.Id = Guid.NewGuid();
-
+        var expectedCode = new OkObjectResult(200);
         _clothesServiceMock.Setup(t => t.DeleteAsync(It.IsAny<DeleteClothes>(), It.IsAny<CancellationToken>()));
         //Act
         var clothes = await _clothesController.Delete(id, new CancellationToken());
-        var expectedCode = new OkObjectResult(200);
         var clothesCode = new OkObjectResult(clothes);
 
         //Assert
@@ -78,7 +77,7 @@ public class ClothesControllerTests
     }
 
     [Test]
-    public async Task ClothesController_AddClothes_NotEqual()
+    public async Task Update_NotEqual_True()
     {
         //Arrange
         var clothes = new Clothes();
@@ -90,7 +89,6 @@ public class ClothesControllerTests
         inputClothes.Name = "differentName";
         inputClothes.DefaultQuantity = quantity;
 
-
         _clothesServiceMock.Setup(t => t.UpdateAsync(It.IsAny<UpdateClothes>(), It.IsAny<CancellationToken>()));
         //Act
         var _clothes = await _clothesController.Update(inputClothes, new CancellationToken());
@@ -101,18 +99,14 @@ public class ClothesControllerTests
     }
 
     [Test]
-    public async Task ClothesController_Create_NotNull()
+    public async Task Create_NotNull_True()
     {
         //Arrange
         var clothes = new ClothesCreateRequest();
-        var quantity = clothes.DefaultQuantity = 12;
-        var name = clothes.Name = "name";
-
-
         _clothesServiceMock.Setup(t => t.CreateAsync(It.IsAny<CreateClothes>(), It.IsAny<CancellationToken>()));
+
         //Act
         var _clothes = await _clothesController.Create(clothes, new CancellationToken());
-
 
         //Assert
         Assert.NotNull(_clothes);

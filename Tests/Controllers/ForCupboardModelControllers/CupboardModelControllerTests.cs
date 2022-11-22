@@ -30,7 +30,7 @@ public class CupboardModelControllerTests
 
 
     [Test]
-    public async Task CupboardModelController_Get_NotNull()
+    public async Task Get_NotNull_True()
     {
         //Arrange
         _cupboardServiceMock.Setup(t => t.GetAsync(It.IsAny<CancellationToken>(), It.IsAny<bool>()));
@@ -41,36 +41,32 @@ public class CupboardModelControllerTests
     }
 
     [Test]
-    public async Task CupboardModelController_Delete_EqualToStatusCode200()
+    public async Task Delete_EqualToStatusCode200_True()
     {
         //Arrange
         var inputCupboardModel = new DeleteCupboardModelRequest();
         var id = inputCupboardModel.Id = Guid.NewGuid();
-
+        var expectedCode = new OkObjectResult(200);
         _cupboardServiceMock.Setup(t => t.DeleteAsync(It.IsAny<DeleteCupboardModel>(), It.IsAny<CancellationToken>()));
+
         //Act
         var cupboardModel = await _cupboardController.Delete(new CancellationToken(), inputCupboardModel);
-        var expectedCode = new OkObjectResult(200);
         var cupboardModelCode = new OkObjectResult(cupboardModel);
 
         //Assert
-
         Assert.That(cupboardModelCode.StatusCode, Is.EqualTo(expectedCode.StatusCode));
     }
 
 
     [Test]
-    public async Task CupboardModelController_Create_NotNull()
+    public async Task Create_NotNull_True()
     {
         //Arrange
         var cupboardModel = new CreateCupboardModelRequest();
-        var name = cupboardModel.Name = "name";
-
-
         _cupboardServiceMock.Setup(t => t.CreateAsync(It.IsAny<CreateCupboardModel>(), It.IsAny<CancellationToken>()));
+
         //Act
         var cupboardModelData = await _cupboardController.Create(new CancellationToken(), cupboardModel);
-
 
         //Assert
         Assert.NotNull(cupboardModelData);
